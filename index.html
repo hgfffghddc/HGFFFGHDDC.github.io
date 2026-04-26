@@ -1,13 +1,502 @@
 <!DOCTYPE html>
-<html>
-<h1>6jinshedeme</h1>
+<html lang="zh-CN">
 <head>
-    <script>
-        <img src="">
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6近视的me - 开源PCB</title>
+    <style>
+        :root {
+            --pcb-green: #2e7d32;
+            --pcb-dark: #1b5e20;
+            --pcb-light: #4caf50;
+            --gold: #ffd54f;
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --text: #212121;
+            --text-light: #555;
+            --solder: #c0c0c0;
+            --pad: #ffb300;
+            --btn: #e0e0e0;
+            --btn-hover: #bdbdbd;
+            --nav-active: #ff8f00;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: 0.3s ease;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Navigation ===== */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--card);
+            border-bottom: 3px solid var(--pcb-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--pcb-green);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-links button {
+            background: none;
+            border: 2px solid transparent;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-links button:hover {
+            background: #e8f5e9;
+            border-color: var(--pcb-green);
+        }
+        .nav-links button.active {
+            background: var(--pcb-green);
+            color: #fff;
+            border-color: var(--pcb-green);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--pcb-green);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        /* ===== Page Container ===== */
+        .page-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+            animation: fadeSlide 0.35s ease;
+        }
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Home Page ===== */
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pcb-green), var(--pcb-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.8rem;
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            color: var(--pcb-dark);
+            margin-bottom: 0.3rem;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-family: var(--font-mono);
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .hl-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform var(--transition);
+        }
+        .hl-card:hover {
+            transform: translateY(-4px);
+        }
+        .hl-card .icon {
+            font-size: 2.6rem;
+            margin-bottom: 0.6rem;
+        }
+        .hl-card h3 {
+            color: var(--pcb-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== Project Page ===== */
+        .project-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .project-header h2 {
+            font-size: 2rem;
+            color: var(--pcb-dark);
+        }
+        .project-header .badge {
+            display: inline-block;
+            background: var(--pcb-green);
+            color: #fff;
+            padding: 0.2rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+
+        .project-intro {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+        .spec {
+            background: #e8f5e9;
+            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .features-list li {
+            padding: 0.4rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .features-list li::before {
+            content: '✅';
+        }
+
+        .github-link-btn {
+            display: inline-block;
+            background: #24292e;
+            color: #fff;
+            padding: 0.7rem 1.8rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background var(--transition);
+            margin-top: 1rem;
+        }
+        .github-link-btn:hover {
+            background: #000;
+        }
+
+        /* ===== About Page ===== */
+        .about-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .about-card h2 {
+            color: var(--pcb-green);
+            margin-bottom: 1rem;
+        }
+        .about-card p {
+            margin-bottom: 1rem;
+        }
+        .about-card .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .about-card .skill-tag {
+            background: #e8f5e9;
+            color: var(--pcb-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--pcb-dark);
+            color: #fff;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--card);
+                padding: 0.8rem;
+                box-shadow: var(--shadow);
+                border-top: 2px solid var(--pcb-green);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<button>yes</button>
-<input  />
+
+    <!-- ===== Navigation ===== -->
+    <nav>
+        <a class="nav-logo" onclick="switchPage('home')" title="返回首页">
+            ⚡ 6近视的me
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <button id="navHome" class="active" onclick="switchPage('home')">🏠 首页</button>
+            <button id="navProject" onclick="switchPage('project')">📦 项目</button>
+            <button id="navAbout" onclick="switchPage('about')">👤 简介</button>
+        </div>
+    </nav>
+
+    <!-- ===== Page Container ===== -->
+    <div class="page-container">
+
+        <!-- HOME PAGE -->
+        <section class="page active" id="page-home">
+            <div class="hero">
+                <div class="hero-avatar">🔧</div>
+                <h1>6近视的me</h1>
+                <p class="subtitle">PCB 爱好者 · 开源硬件贡献者</p>
+                <p style="margin-top:1rem; color: var(--text-light); max-width: 500px; margin-left:auto; margin-right:auto;">
+                    热爱电路设计，喜欢动手制作各种小玩意儿。坚信开源让世界更美好。
+                </p>
+            </div>
+
+            <div class="highlights">
+                <div class="hl-card">
+                    <div class="icon">🖥️</div>
+                    <h3>PCB 设计</h3>
+                    <p>熟练使用 KiCad / EasyEDA 进行电路设计与 Layout，享受从原理图到实物的全过程。</p>
+                </div>
+                <div class="hl-card">
+                    <div class="icon">🌟</div>
+                    <h3>开源精神</h3>
+                    <p>所有项目均在 GitHub 上开源，遵循 GPL 3.0 协议，欢迎 Fork 和贡献。</p>
+                </div>
+                <div class="hl-card">
+                    <div class="icon">🤝</div>
+                    <h3>社区交流</h3>
+                    <p>活跃于立创开源硬件平台等社区，与同好交流设计心得与焊接技巧。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT PAGE -->
+        <section class="page" id="page-project">
+            <div class="project-header">
+                <h2>🕹️ 解压按键</h2>
+                <span class="badge">开源硬件 · GPL 3.0</span>
+                <p style="margin-top:0.5rem; color: var(--text-light);">
+                    10 个按钮 + 10 个 LED 灯的迷你解压神器
+                </p>
+            </div>
+
+            <div class="project-intro">
+                <h3>📝 项目简介</h3>
+                <p>
+                    <strong>“解压按键”</strong> 是一款超迷你的 PCB 解压小玩具，正面排列着 10 个轻触按钮，背面则对应 10 颗 LED 灯盘。
+                    按下正面的按钮，背面对应的 LED 就会亮起；松开则熄灭。咔哒咔哒的手感和即时的光效反馈，让人忍不住一直按，有效缓解日常压力。
+                </p>
+                <div class="specs">
+                    <span class="spec">📐 长 7.54 cm</span>
+                    <span class="spec">📏 宽 1.94 cm</span>
+                    <span class="spec">🔘 10 个按钮</span>
+                    <span class="spec">💡 10 个 LED</span>
+                </div>
+                <ul class="features-list">
+                    <li>正面：10 个轻触按钮，按压力度适中，手感清脆</li>
+                    <li>背面：10 个 LED 灯盘，按压即亮，松开即灭</li>
+                    <li>超薄设计，可放入口袋随身携带</li>
+                    <li>完全开源，提供原理图、PCB 文件及 BOM 清单</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a class="github-link-btn" href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">
+                    ⭐ 在 GitHub 上查看本项目
+                </a>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section class="page" id="page-about">
+            <div class="about-card">
+                <h2>👤 关于我</h2>
+                <p>
+                    网名 <strong>6近视的me</strong>，一名热爱电子设计的创客。对 PCB 设计、嵌入式开发以及开源硬件有着浓厚的兴趣。
+                </p>
+                <p>
+                    喜欢在业余时间捣鼓各种小电路，享受从元器件选型、原理图设计、PCB 布线到最终焊接调试的全过程。尤其钟情于制作小巧精致的解压类电子产品。
+                </p>
+                <div class="skills">
+                    <span class="skill-tag">KiCad</span>
+                    <span class="skill-tag">EasyEDA</span>
+                    <span class="skill-tag">立创 EDA</span>
+                    <span class="skill-tag">C/C++</span>
+                    <span class="skill-tag">Arduino</span>
+                    <span class="skill-tag">焊接</span>
+                    <span class="skill-tag">PCB Layout</span>
+                </div>
+                <h3 style="margin-top:1.5rem; color: var(--pcb-green);">🔗 联系方式 & 链接</h3>
+                <p>
+                    📧 <strong>GitHub 主页：</strong>
+                    <a href="https://github.com/hgfffghddc" target="_blank" rel="noopener">github.com/hgfffghddc</a>
+                </p>
+                <p>
+                    🌐 <strong>项目仓库：</strong>
+                    <a href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">HGFFFGHDDC.github.io</a>
+                </p>
+                <p style="margin-top:1.5rem; padding:1rem; background:#e8f5e9; border-radius:8px;">
+                    💡 <strong>“解压按键”</strong> 是我的第一个开源 PCB 项目，后续还会陆续发布更多有趣的小玩意儿，欢迎关注！
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <p>© 2026 <strong>6近视的me</strong> | 基于 <a href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">GitHub</a> 开源 | 拥抱开源，快乐创造 🚀</p>
+    </footer>
+
+    <!-- ===== Page Switching Script ===== -->
+    <script>
+        function switchPage(pageName) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // 显示目标页面
+            const target = document.getElementById('page-' + pageName);
+            if (target) target.classList.add('active');
+
+            // 更新导航按钮激活状态
+            document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+            const navBtn = document.getElementById('nav' + pageName.charAt(0).toUpperCase() + pageName.slice(1));
+            if (navBtn) navBtn.classList.add('active');
+
+            // 移动端关闭菜单
+            document.getElementById('navLinks').classList.remove('open');
+
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 移动端汉堡菜单
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+    </script>
+
 </body>
 </html>
