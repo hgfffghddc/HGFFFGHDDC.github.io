@@ -14,11 +14,6 @@
             --card: #ffffff;
             --text: #212121;
             --text-light: #555;
-            --solder: #c0c0c0;
-            --pad: #ffb300;
-            --btn: #e0e0e0;
-            --btn-hover: #bdbdbd;
-            --nav-active: #ff8f00;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: 0.3s ease;
@@ -36,7 +31,6 @@
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            scroll-behavior: smooth;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -153,13 +147,20 @@
             width: 110px;
             height: 110px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--pcb-green), var(--pcb-light));
+            background: #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 2.8rem;
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+            overflow: hidden;
+        }
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .hero h1 {
@@ -171,6 +172,22 @@
             font-size: 1.2rem;
             color: var(--text-light);
             font-family: var(--font-mono);
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .hero-tags .tag {
+            background: #e8f5e9;
+            color: var(--pcb-dark);
+            padding: 0.25rem 0.8rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            font-size: 0.85rem;
         }
 
         .highlights {
@@ -191,13 +208,36 @@
         .hl-card:hover {
             transform: translateY(-4px);
         }
-        .hl-card .icon {
-            font-size: 2.6rem;
-            margin-bottom: 0.6rem;
-        }
         .hl-card h3 {
             color: var(--pcb-green);
             margin-bottom: 0.5rem;
+        }
+
+        .repo-links-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        .repo-link {
+            display: inline-block;
+            background: #24292e;
+            color: #fff;
+            padding: 0.65rem 1.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background var(--transition);
+        }
+        .repo-link:hover {
+            background: #000;
+        }
+        .repo-link.oshwhub {
+            background: #1565c0;
+        }
+        .repo-link.oshwhub:hover {
+            background: #0d47a1;
         }
 
         /* ===== Project Page ===== */
@@ -249,9 +289,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-        .features-list li::before {
-            content: '✅';
         }
 
         .github-link-btn {
@@ -348,15 +385,15 @@
     <!-- ===== Navigation ===== -->
     <nav>
         <a class="nav-logo" onclick="switchPage('home')" title="返回首页">
-            ⚡ 6近视的me
+            6近视的me
         </a>
         <button class="hamburger" id="hamburger" aria-label="菜单">
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links" id="navLinks">
-            <button id="navHome" class="active" onclick="switchPage('home')">🏠 首页</button>
-            <button id="navProject" onclick="switchPage('project')">📦 项目</button>
-            <button id="navAbout" onclick="switchPage('about')">👤 简介</button>
+            <button id="navHome" class="active" onclick="switchPage('home')">首页</button>
+            <button id="navProject" onclick="switchPage('project')">项目</button>
+            <button id="navAbout" onclick="switchPage('about')">简介</button>
         </div>
     </nav>
 
@@ -366,66 +403,77 @@
         <!-- HOME PAGE -->
         <section class="page active" id="page-home">
             <div class="hero">
-                <div class="hero-avatar">🔧</div>
+                <div class="hero-avatar">
+                    <img src="https://raw.githubusercontent.com/hgfffghddc/HGFFFGHDDC.github.io/main/%E5%A4%B4%E5%83%8F.jpg" alt="头像">
+                </div>
                 <h1>6近视的me</h1>
-                <p class="subtitle">PCB 爱好者 · 开源硬件贡献者</p>
+                <p class="subtitle">PCB 爱好者 / 开源硬件贡献者</p>
+                <div class="hero-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Arduino</span>
+                    <span class="tag">C/C++</span>
+                    <span class="tag">立创EDA</span>
+                    <span class="tag">开源</span>
+                </div>
                 <p style="margin-top:1rem; color: var(--text-light); max-width: 500px; margin-left:auto; margin-right:auto;">
-                    热爱电路设计，喜欢动手制作各种小玩意儿。
+                    热爱电路设计，享受从原理图到实物的全过程。所有项目在 GitHub 和立创开源硬件平台 (OSHWHub) 上开源。
                 </p>
             </div>
 
             <div class="highlights">
                 <div class="hl-card">
-                    <div class="icon">🖥️</div>
                     <h3>PCB 设计</h3>
-                    <p>熟练使用 KiCad / EasyEDA 进行电路设计与 Layout，享受从原理图到实物的全过程。</p>
+                    <p>熟练使用立创EDA、KiCad 进行电路设计与 Layout，享受从原理图到实物的全过程。</p>
                 </div>
                 <div class="hl-card">
-                    <div class="icon">🌟</div>
                     <h3>开源精神</h3>
-                    <p>所有项目均在 GitHub 上开源，遵循 GPL 3.0 协议，欢迎 Fork 和贡献。</p>
+                    <p>所有项目均在 GitHub 与 OSHWHub 上开源，欢迎 Fork 和复刻。</p>
                 </div>
                 <div class="hl-card">
-                    <div class="icon">🤝</div>
                     <h3>社区交流</h3>
                     <p>活跃于立创开源硬件平台等社区，与同好交流设计心得与焊接技巧。</p>
                 </div>
+            </div>
+
+            <!-- 双仓库链接 -->
+            <div class="repo-links-row">
+                <a class="repo-link" href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">GitHub 仓库</a>
+                <a class="repo-link oshwhub" href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">OSHWHub 项目</a>
             </div>
         </section>
 
         <!-- PROJECT PAGE -->
         <section class="page" id="page-project">
             <div class="project-header">
-                <h2>🕹️ 解压按键</h2>
-                <span class="badge">开源硬件 · GPL 3.0</span>
+                <h2>解压按键</h2>
+                <span class="badge">开源硬件</span>
                 <p style="margin-top:0.5rem; color: var(--text-light);">
-                    10 个按钮 + 10 个 LED 灯的迷你解压神器
+                    10 个按钮 + 10 个 LED 灯
                 </p>
             </div>
 
             <div class="project-intro">
-                <h3>📝 项目简介</h3>
+                <h3>项目简介</h3>
                 <p>
-                    <strong>“解压按键”</strong> 是一款超迷你的 PCB 解压小玩具，正面排列着 10 个轻触按钮，背面则对应 10 颗 LED 灯盘。
-                    按下正面的按钮，背面对应的 LED 就会亮起；松开则熄灭。咔哒咔哒的手感和即时的光效反馈，让人忍不住一直按，有效缓解日常压力。
+                    <strong>解压按键</strong>
                 </p>
                 <div class="specs">
-                    <span class="spec"> 长 7.54 cm</span>
-                    <span class="spec"> 宽 1.94 cm</span>
-                    <span class="spec"> 10 个按钮</span>
-                    <span class="spec"> 10 个 LED</span>
+                    <span class="spec">长 7.54 cm</span>
+                    <span class="spec">宽 1.94 cm</span>
+                    <span class="spec">10 个按钮</span>
+                    <span class="spec">10 个 LED</span>
                 </div>
                 <ul class="features-list">
-                    <li>正面：10 个轻触按钮，按压力度适中，手感清脆</li>
-                    <li>背面：10 个 LED 灯盘，按压即亮，松开即灭</li>
+                    <li>正面：10 个轻触按钮</li>
+                    <li>背面：10 个 LED 灯</li>
                     <li>超薄设计，可放入口袋随身携带</li>
                     <li>完全开源，提供原理图、PCB 文件及 BOM 清单</li>
                 </ul>
             </div>
 
             <div style="text-align: center; margin-bottom: 2rem;">
-                <a class="github-link-btn" href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">
-                    ⭐ 在 GitHub 上查看本项目
+                <a class="github-link-btn" href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">
+                    在 oshwhub 上查看本项目
                 </a>
             </div>
         </section>
@@ -433,7 +481,7 @@
         <!-- ABOUT PAGE -->
         <section class="page" id="page-about">
             <div class="about-card">
-                <h2>👤 关于我</h2>
+                <h2>关于我</h2>
                 <p>
                     网名 <strong>6近视的me</strong>，一名热爱电子设计的创客。对 PCB 设计、嵌入式开发以及开源硬件有着浓厚的兴趣。
                 </p>
@@ -441,25 +489,23 @@
                     喜欢在业余时间捣鼓各种小电路，享受从元器件选型、原理图设计、PCB 布线到最终焊接调试的全过程。尤其钟情于制作小巧精致的解压类电子产品。
                 </p>
                 <div class="skills">
-                    <span class="skill-tag">KiCad</span>
-                    <span class="skill-tag">EasyEDA</span>
-                    <span class="skill-tag">立创 EDA</span>
-                    <span class="skill-tag">C/C++</span>
+                    <span class="skill-tag">Python</span>
                     <span class="skill-tag">Arduino</span>
-                    <span class="skill-tag">焊接</span>
-                    <span class="skill-tag">PCB Layout</span>
+                    <span class="skill-tag">C/C++</span>
+                    <span class="skill-tag">立创EDA</span>
+                    <span class="skill-tag">开源</span>
                 </div>
-                <h3 style="margin-top:1.5rem; color: var(--pcb-green);">🔗 联系方式 & 链接</h3>
+                <h3 style="margin-top:1.5rem; color: var(--pcb-green);">联系方式 / 开源仓库</h3>
                 <p>
-                    📧 <strong>GitHub 主页：</strong>
+                    <strong>GitHub 主页：</strong>
                     <a href="https://github.com/hgfffghddc" target="_blank" rel="noopener">github.com/hgfffghddc</a>
                 </p>
                 <p>
-                    🌐 <strong>项目仓库：</strong>
-                    <a href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">HGFFFGHDDC.github.io</a>
+                    <strong>OSHWHub 主页：</strong>
+                    <a href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">oshwhub.com/956328a/works</a>
                 </p>
                 <p style="margin-top:1.5rem; padding:1rem; background:#e8f5e9; border-radius:8px;">
-                    💡 <strong>“解压按键”</strong> 是我的第一个开源 PCB 项目，后续还会陆续发布更多有趣的小玩意儿，欢迎关注！
+                    <strong>解压按键</strong> 是我的第一个开源 PCB 项目，后续还会陆续发布更多有趣的小玩意儿。所有项目均在 GitHub 和 OSHWHub 上开源，欢迎关注。
                 </p>
             </div>
         </section>
@@ -468,31 +514,29 @@
 
     <!-- ===== Footer ===== -->
     <footer>
-        <p>© 2026 <strong>6近视的me</strong> | 基于 <a href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">GitHub</a> 开源 | 拥抱开源，快乐创造 🚀</p>
+        <p>2026 <strong>6近视的me</strong> | 开源仓库：
+            <a href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">GitHub</a>
+            /
+            <a href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">OshwHub</a>
+        </p>
     </footer>
 
     <!-- ===== Page Switching Script ===== -->
     <script>
         function switchPage(pageName) {
-            // 隐藏所有页面
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // 显示目标页面
             const target = document.getElementById('page-' + pageName);
             if (target) target.classList.add('active');
 
-            // 更新导航按钮激活状态
             document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
             const navBtn = document.getElementById('nav' + pageName.charAt(0).toUpperCase() + pageName.slice(1));
             if (navBtn) navBtn.classList.add('active');
 
-            // 移动端关闭菜单
             document.getElementById('navLinks').classList.remove('open');
 
-            // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 移动端汉堡菜单
         document.getElementById('hamburger').addEventListener('click', function() {
             document.getElementById('navLinks').classList.toggle('open');
         });
