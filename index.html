@@ -354,6 +354,14 @@
             text-decoration: underline;
         }
 
+        #site-timer {
+            margin-top: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--gold);
+            letter-spacing: 0.03em;
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 640px) {
             .nav-links {
@@ -537,6 +545,9 @@
             /
             <a href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">OSHWHub</a>
         </p>
+        <div id="site-timer">
+            网站已运行 <span id="timer-days">0</span> 天 <span id="timer-hours">00</span>:<span id="timer-mins">00</span>:<span id="timer-secs">00</span>
+        </div>
     </footer>
 
     <!-- ===== Page Switching Script ===== -->
@@ -558,6 +569,36 @@
         document.getElementById('hamburger').addEventListener('click', function() {
             document.getElementById('navLinks').classList.toggle('open');
         });
+
+        // 网站运行计时器
+        const startDate = new Date(2026, 3, 26, 12, 0, 0); // 2026年4月26日 12:00
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff < 0) {
+                document.getElementById('timer-days').textContent = '0';
+                document.getElementById('timer-hours').textContent = '00';
+                document.getElementById('timer-mins').textContent = '00';
+                document.getElementById('timer-secs').textContent = '00';
+                return;
+            }
+
+            const seconds = Math.floor(diff / 1000);
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+
+            document.getElementById('timer-days').textContent = days;
+            document.getElementById('timer-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('timer-mins').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('timer-secs').textContent = String(secs).padStart(2, '0');
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
     </script>
 
 </body>
