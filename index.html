@@ -34,6 +34,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
 
         /* ===== Navigation ===== */
@@ -243,7 +244,7 @@
         /* ===== Project Page ===== */
         .project-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .project-header h2 {
             font-size: 2rem;
@@ -257,6 +258,29 @@
             border-radius: 1rem;
             font-size: 0.85rem;
             margin-top: 0.3rem;
+        }
+
+        /* 项目内导航 */
+        .project-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .project-nav a {
+            background: var(--card);
+            color: var(--pcb-dark);
+            border: 2px solid var(--pcb-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .project-nav a:hover {
+            background: var(--pcb-green);
+            color: #fff;
         }
 
         .project-intro {
@@ -443,7 +467,6 @@
                 </div>
             </div>
 
-            <!-- 双仓库链接 -->
             <div class="repo-links-row">
                 <a class="repo-link" href="https://github.com/hgfffghddc/HGFFFGHDDC.github.io" target="_blank" rel="noopener">GitHub 仓库</a>
                 <a class="repo-link oshwhub" href="https://oshwhub.com/956328a/works" target="_blank" rel="noopener">OSHWHub 项目</a>
@@ -457,8 +480,14 @@
                 <p style="color: var(--text-light);">开源硬件与软件作品</p>
             </div>
 
+            <!-- 项目内导航 -->
+            <div class="project-nav">
+                <a href="#project-decomp">解压按键</a>
+                <a href="#project-py">py文件打包</a>
+            </div>
+
             <!-- 项目1：解压按键 -->
-            <div class="project-intro">
+            <div class="project-intro" id="project-decomp">
                 <h3>解压按键</h3>
                 <span class="badge">开源硬件</span>
                 <p style="margin-top:0.5rem;">
@@ -484,7 +513,7 @@
             </div>
 
             <!-- 项目2：py文件打包 -->
-            <div class="project-intro">
+            <div class="project-intro" id="project-py">
                 <h3>py文件打包</h3>
                 <span class="badge">工具软件</span>
                 <p style="margin-top:0.5rem;">
